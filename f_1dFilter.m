@@ -2,6 +2,11 @@
 % 1-Dimensional Biquad filter
 %
 % Author: Jay Piamjariyakul
+%
+% Sources
+% Digital biquad filter model:
+% - D. Ward, "Applications of loudness models in audio engineering," Ph.D. 
+%   dissertation, Birmingham City University, 2017
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [out_filt, seq_delay] = f_1dFilter(b, a, in_audio, seq_delay)

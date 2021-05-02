@@ -12,7 +12,7 @@
 %   measure audioprogramme loudness and true-peak audio level," 2006
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function  [out_L_ema, timeTaken] = tb_makeup_ema(in_refr, out_fil)
+function  [out_L_ema, timeTaken] = f_makeup_ema(in_refr, out_fil)
 
 Fs_filter = 44100;
 sz_channel = size(in_refr, 2);
@@ -32,10 +32,11 @@ mem_ema_L_i = zeros(1, sz_channel);
 mem_ema_L_f = zeros(1, sz_channel);
 
 % Memory of previous delay values in 1D filter
-delay_f_prK = zeros(2, sz_channel); % Stores buffer for filtr algorithm
-delay_f_rlb = zeros(2, sz_channel); % Stores buffer for filtr algorithm
-delay_i_prK = zeros(2, sz_channel); % Stores buffer for filtr algorithm
-delay_i_rlb = zeros(2, sz_channel); % Stores buffer for filtr algorithm
+delay_f_prK = zeros(2, sz_channel);
+delay_f_rlb = zeros(2, sz_channel);
+delay_i_prK = zeros(2, sz_channel);
+delay_i_rlb = zeros(2, sz_channel);
+% Stores buffer for filters
 
 %% Run make-up gain
 tic;

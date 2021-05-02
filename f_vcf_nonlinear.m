@@ -4,7 +4,7 @@
 % Author: Jay Piamjariyakul
 %
 % Sources
-% Unweighted nonlinear digital Moog VCF difference equations:
+% Dimensionless nonlinear digital Moog VCF difference equations:
 % - P. Daly, "A comparison of virtual analogue Moog VCF models," Master's
 %   thesis, Univ. ofEdinburgh, Edinburgh, UK, Aug, 2012.
 % Original nonlinear implementation:
@@ -13,7 +13,7 @@
 %   Audio Effects (DAFx-04), 2004
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [y, y_d2] = f_filter_nonlinear(y, in, g, k, y_d2)
+function [y, y_d2] = f_vcf_nonlinear(y, in, g, k, y_d2)
 % Nonlinear implementation at y(4)+y_d2 uses previous value stored
 % Initial previous value (ie y_d2) = 0
 y_0 = in - ( k * ( 0.5 * ( y(4, :) + y_d2 ) ) );

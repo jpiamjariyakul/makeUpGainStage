@@ -12,7 +12,7 @@
 %   measure audioprogramme loudness and true-peak audio level," 2006
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function  [out_L_sma, timeTaken] = tb_makeup_sma(in_refr, out_fil)
+function  [out_L_sma, timeTaken] = f_makeup_sma(in_refr, out_fil)
 
 Fs_filter = 44100;
 sz_channel = size(in_refr, 2);
@@ -22,7 +22,6 @@ sz_channel = size(in_refr, 2);
 
 %% Set necessary parameters
 size_window = round(Fs_filter * 0.4); % 0.4s from ITU document
-% size_window = round(Fs_filter * 0.4); % 0.4s from ITU document
 % Initialises output memory
 out_L_sma = zeros(size(in_refr, 1), sz_channel);
 
@@ -35,10 +34,11 @@ mem_sma_L_i = zeros(1, sz_channel);
 mem_sma_L_f = zeros(1, sz_channel);
 
 % Memory of previous delay values in 1D filter
-delay_f_prK = zeros(2, sz_channel); % Stores buffer for filtr algorithm
-delay_f_rlb = zeros(2, sz_channel); % Stores buffer for filtr algorithm
-delay_i_prK = zeros(2, sz_channel); % Stores buffer for filtr algorithm
-delay_i_rlb = zeros(2, sz_channel); % Stores buffer for filtr algorithm
+delay_f_prK = zeros(2, sz_channel);
+delay_f_rlb = zeros(2, sz_channel);
+delay_i_prK = zeros(2, sz_channel);
+delay_i_rlb = zeros(2, sz_channel);
+% Stores buffer for filters
 
 %% Run make-up gain
 tic;
