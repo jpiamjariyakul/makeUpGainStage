@@ -25,16 +25,24 @@
 %% Preliminaries
 clc, clear
 
-%% Defines essential parameters
+%% 0) Defines essential parameters
 Fs = 44100; % Sampling frequency (Hz)
+Fc = 440;   % Cutoff frequency of Moog filter (Hz)
+gainFeedbk = 3.99; % Feedback gain of Moog filter
+
 range_f = (1 : Fs/2); % Frequency range of plots (half since mirror) (Hz)
 range_f_norm = range_f * (2 * pi) / Fs;
 duration = 1; % Signal duration (seconds)
 t = 0:1/Fs:duration; t = t(2:end); % Time array (seconds)
 
-%% Obtains test sequences
+% For plotting - define colors
+dict_color = containers.Map({'blue', 'orange', 'yellow', 'purple', 'green', 'aqua', 'red'}, ...
+                            {'#0072BD', '#D95319', '#EDB120', '#7E2F8E', '#77AC30', '#4DBEEE', '#A2142F'} ...
+                            );
+
+%% 1) Obtains test sequences
 % Change 'flag' to switch between different test data
-flag = "impulse";
+flag = "square";
 switch flag
     case "impulse"
         in_audio = zeros(length(t), 2); in_audio(1, :) = 1;
@@ -50,21 +58,16 @@ switch flag
         t = 0:1/Fs:size(in_audio, 1)/Fs; t = t(2:end);
 end
 
-%% For plotting - define colors
-dict_color = containers.Map({'blue', 'orange', 'yellow', 'purple', 'green', 'aqua', 'red'}, ...
-                            {'#0072BD', '#D95319', '#EDB120', '#7E2F8E', '#77AC30', '#4DBEEE', '#A2142F'} ...
-                            );
-
-%% Runs filter on specified signal
-Fc = 440; % Cutoff frequency (Hz)
+%% 2) Runs filter on specified signal
+%Fc = 440; % Cutoff frequency (Hz)
 % coefWeight_vcf = f_vcf_coefWeight(440, 44100);
 coefWeight_vcf = 1 - exp( (-2 * pi) * ( Fc / Fs ) );
-gainFeedbk = 3.99;
+% gainFeedbk = 3.99;
 out_filtr = f_runVcf(in_audio, coefWeight_vcf, gainFeedbk);
 % Feedback gain = 3.99
 % VCF weighting coefficient for cutoff frequency = 440 Hz
 
-%% Plots time response
+%% 3) Plots time response
 % Specifies how long to plot the duration for
 factor_t = length(t) * size(in_audio, 1) / length(t);
 % Specifies snippet for subplot
@@ -84,11 +87,11 @@ hold on;
 plot(t(t_subplt(1):t_subplt(2)), out_filtr(t_subplt(1):t_subplt(2)));
 axis tight; grid on;
 
-%% Runs make-up gain on filtered signal
+%% 4) Runs make-up gain on filtered signal
 [out_L_sma, ~] = f_makeup_sma(in_audio, out_filtr);
 [out_L_ema, ~] = f_makeup_ema(in_audio, out_filtr);
 
-%% Plots gain-applied outout
+%% 5) Plots gain-applied outout
 figure;
 hold on;
     plot(t(1:factor_t), in_audio(1:factor_t, 1), "Color", dict_color("green"));
